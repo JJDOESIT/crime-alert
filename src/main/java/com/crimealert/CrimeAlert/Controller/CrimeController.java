@@ -25,9 +25,4 @@ public class CrimeController {
     public ArrayList<CrimeModel> get() {
         return new ArrayList<>();
     }
-
-    @GetMapping("/ip")
-    public String getIp() throws URISyntaxException, IOException, InterruptedException {
-        return _crimeLogic.getIpAddress();
-    }
 }
