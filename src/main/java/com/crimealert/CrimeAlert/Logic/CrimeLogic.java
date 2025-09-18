@@ -1,5 +1,8 @@
 package com.crimealert.CrimeAlert.Logic;
 
+import com.crimealert.CrimeAlert.Model.CrimeModel;
+import com.j256.ormlite.dao.Dao;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -10,9 +13,11 @@ import java.net.http.HttpResponse;
 public class CrimeLogic {
 
     private final HttpClient _httpClient;
+    private final Dao<CrimeModel, Integer> _userDao;
 
-    public CrimeLogic(HttpClient httpClient) {
+    public CrimeLogic(HttpClient httpClient, Dao<CrimeModel, Integer> daoConfig) {
         _httpClient = httpClient;
+        _userDao = daoConfig;
     }
 
     private String getIpAddress() throws URISyntaxException, IOException, InterruptedException {
