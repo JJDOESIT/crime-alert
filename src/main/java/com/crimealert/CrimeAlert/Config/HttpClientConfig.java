@@ -1,3 +1,6 @@
+//global, singleton classes
+
+
 package com.crimealert.CrimeAlert.Config;
 
 import java.net.http.HttpClient;
