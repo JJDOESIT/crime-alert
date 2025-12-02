@@ -1,64 +1,49 @@
-//define classes 
 package com.crimealert.CrimeAlert.Model;
+
+import java.util.Date;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-
 
 @DatabaseTable(tableName = "crimes")
 public class CrimeModel {
 
     @DatabaseField(generatedId = true)
-    private int id;
+    public int id;
 
     @DatabaseField
     public String description;
 
     @DatabaseField
-    private float longitude;
+    public float latitude;
 
     @DatabaseField
-    private float latitude;
+    public float longitude;
 
-    private String address;
+    @DatabaseField
+    public String country;
 
-    public CrimeModel() {}
+    @DatabaseField
+    public String regionName;
 
-    public CrimeModel(float longitude, float latitude, String description) {
-        this.longitude = longitude;
-        this.latitude = latitude;
+    @DatabaseField
+    public String city;
+
+    @DatabaseField
+    public Date timestamp;
+
+    public CrimeModel() {
+
+    }
+
+    public CrimeModel(String description, float latitude, float longitude, String country, String regionName,
+            String city) {
         this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public float getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(float longitude) {
-        this.longitude = longitude;
-    }
-
-    public float getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(float latitude) {
         this.latitude = latitude;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+        this.longitude = longitude;
+        this.country = country;
+        this.regionName = regionName;
+        this.city = city;
+        this.timestamp = new Date();
     }
 }
