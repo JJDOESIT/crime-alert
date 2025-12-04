@@ -37,11 +37,10 @@ public class Entry extends Application {
                 }
             }).start();
 
-            // Note: This 'output' variable shadows the class field 'output', but we'll leave it as is per request.
             TextArea output = new TextArea();
             output.setEditable(false);
 
-            // --- Report Crime Button ---
+            //report crime
             Button reportCrimeButton = new Button("Report Crime");
             reportCrimeButton.setOnAction(event -> {
                 TextInputDialog dialog = new TextInputDialog();
@@ -80,12 +79,12 @@ public class Entry extends Application {
                 });
             });
 
-            // --- Load Crimes Button (Uses TextInputDialog for Radius) ---
+          //load crime
             Button loadCrimesButton = new Button("Load Crimes");
 
             loadCrimesButton.setOnAction(event -> {
-                // 1. Prompt the user for the desired radius
-                TextInputDialog dialog = new TextInputDialog("10"); // Default value of 10
+              
+                TextInputDialog dialog = new TextInputDialog("10"); //default value of 10
                 dialog.setTitle("Load Crimes");
                 dialog.setHeaderText("Specify Search Radius");
                 dialog.setContentText("Enter radius in miles (e.g., 10):");
@@ -132,8 +131,6 @@ public class Entry extends Application {
                 });
             });
 
-            // --- UI Setup ---
-            // Layout (VBox now contains both buttons)
             VBox root = new VBox(10, reportCrimeButton, loadCrimesButton, output);
             Scene scene = new Scene(root, 600, 400);
 
