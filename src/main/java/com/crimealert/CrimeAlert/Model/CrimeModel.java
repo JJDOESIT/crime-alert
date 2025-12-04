@@ -2,6 +2,7 @@ package com.crimealert.CrimeAlert.Model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -35,6 +36,8 @@ public class CrimeModel {
     public CrimeModel() {
 
     }
+    @JsonIgnore
+    public String getAddressString() {return String.format("%s, %s, %s", this.regionName, this.city, this.country);}
 
     public CrimeModel(String description, float latitude, float longitude, String country, String regionName,
             String city) {

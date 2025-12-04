@@ -3,11 +3,12 @@ plugins {
 	id 'application'
 	id 'org.springframework.boot' version '3.5.6'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
 group = 'com.crimealert'
 version = '0.0.1-SNAPSHOT'
-description = 'A tool to watch and report local crimes. '
+description = 'A tool to watch and report local crimes.'
 
 java {
 	toolchain {
@@ -15,28 +16,31 @@ java {
 	}
 }
 
+javafx {
+	version = "17.0.8"
+	modules = [ 'javafx.controls' ]
+}
 
 repositories {
 	mavenCentral()
 }
 
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.j256.ormlite:ormlite-core:6.1'
-    implementation 'com.j256.ormlite:ormlite-jdbc:6.1'
-    implementation 'org.xerial:sqlite-jdbc:3.45.2.0'
+	implementation 'com.j256.ormlite:ormlite-jdbc:6.1'
+	implementation 'org.xerial:sqlite-jdbc:3.45.2.0'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 application {
-	mainClass = 'com.crimealert.CrimeAlert.CrimeAlertApplication'
+	mainClass = 'com.crimealert.CrimeAlert.Entry'
 }
-
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
-
-
