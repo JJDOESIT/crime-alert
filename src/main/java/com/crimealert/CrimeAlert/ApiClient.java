@@ -27,7 +27,7 @@ public class ApiClient {
         }).start();
 
         try {
-            Thread.sleep(3_000);
+            Thread.sleep(10_000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
