@@ -7,6 +7,8 @@ import com.crimealert.CrimeAlert.Model.CrimeModel;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -19,7 +21,6 @@ import javafx.stage.Stage;
 public class Entry extends Application {
 
     private ApiClient client;
-    //private TextArea output;
 
     public static void main(String[] args) {
         launch(args);
@@ -37,26 +38,39 @@ public class Entry extends Application {
                 }
             }).start();
 
+        
             TextArea output = new TextArea();
             output.setEditable(false);
+            output.setPrefHeight(250);
+            output.setStyle("-fx-font-size: 14px; -fx-control-inner-background: #f9f9f9;");
 
-            //report crime
+            //buttons and format
             Button reportCrimeButton = new Button("Report Crime");
+            Button loadCrimesButton = new Button("Load Crimes");
+
+            String buttonStyle = "-fx-font-size: 15px; -fx-padding: 10 20; "
+                               + "-fx-background-color: #2b5797; -fx-text-fill: white; "
+                               + "-fx-background-radius: 8;";
+
+            reportCrimeButton.setStyle(buttonStyle);
+            loadCrimesButton.setStyle(buttonStyle);
+            reportCrimeButton.setMaxWidth(Double.MAX_VALUE);
+            loadCrimesButton.setMaxWidth(Double.MAX_VALUE);
+
+            //report
             reportCrimeButton.setOnAction(event -> {
                 TextInputDialog dialog = new TextInputDialog();
                 dialog.setTitle("Report a Crime");
                 dialog.setHeaderText("Enter Crime Details");
-                dialog.setContentText("Description of the Crime");
-                
+                dialog.setContentText("Description of the Crime:");
+
                 Optional<String> result = dialog.showAndWait();
 
                 result.ifPresent(description -> {
                     new Thread(() -> {
                         try {
-                            // call api to post
                             client.postCrime(description);
 
-                            // success
                             Platform.runLater(() -> {
                                 Alert alert = new Alert(AlertType.INFORMATION);
                                 alert.setTitle("Success");
@@ -79,12 +93,9 @@ public class Entry extends Application {
                 });
             });
 
-          //load crime
-            Button loadCrimesButton = new Button("Load Crimes");
-
+            //load crimes
             loadCrimesButton.setOnAction(event -> {
-              
-                TextInputDialog dialog = new TextInputDialog("10"); //default value of 10
+                TextInputDialog dialog = new TextInputDialog("10");
                 dialog.setTitle("Load Crimes");
                 dialog.setHeaderText("Specify Search Radius");
                 dialog.setContentText("Enter radius in miles (e.g., 10):");
@@ -95,19 +106,18 @@ public class Entry extends Application {
                         final int selectedRadius = Integer.parseInt(radiusString.trim());
                         new Thread(() -> {
                             try {
-                                // fetch with user radius
                                 ArrayList<CrimeModel> crimes = client.getCrimes(selectedRadius);
                                 StringBuilder sb = new StringBuilder();
 
-                                // no crimes in radius
                                 if (crimes.isEmpty()) {
                                     sb.append(String.format("No crimes found in your area (%d-mile radius).\n", selectedRadius));
                                 } else {
                                     for (CrimeModel crime : crimes) {
-                                        sb.append(String.format("Crime at %s, located at %s, description: %s\n",
-                                                    crime.timestamp.toString(),
-                                                    crime.getAddressString(),
-                                                    crime.description));
+                                        sb.append(String.format(
+                                            "Crime at %s, located at %s, description: %s\n",
+                                            crime.timestamp.toString(),
+                                            crime.getAddressString(),
+                                            crime.description));
                                     }
                                 }
 
@@ -119,20 +129,22 @@ public class Entry extends Application {
                             }
                         }).start();
                     } catch (NumberFormatException e) {
-                       // imput validation
-                        Platform.runLater(() -> {
-                            Alert errorAlert = new Alert(AlertType.ERROR);
-                            errorAlert.setTitle("Input Error");
-                            errorAlert.setHeaderText(null);
-                            errorAlert.setContentText("Please enter a valid number for the radius.");
-                            errorAlert.showAndWait();
-                        });
+                        Alert errorAlert = new Alert(AlertType.ERROR);
+                        errorAlert.setTitle("Input Error");
+                        errorAlert.setHeaderText(null);
+                        errorAlert.setContentText("Please enter a valid number for the radius.");
+                        errorAlert.showAndWait();
                     }
                 });
             });
 
-            VBox root = new VBox(10, reportCrimeButton, loadCrimesButton, output);
-            Scene scene = new Scene(root, 600, 400);
+            //layout
+            VBox root = new VBox(15, reportCrimeButton, loadCrimesButton, output);
+            root.setPadding(new Insets(20));
+            root.setAlignment(Pos.TOP_CENTER);
+            root.setStyle("-fx-background-color: #ececec;");
+
+            Scene scene = new Scene(root, 600, 430);
 
             primaryStage.setTitle("CrimeAlert");
             primaryStage.setScene(scene);
