@@ -23,7 +23,7 @@ public class ApiClient {
 
     public void launchAPI() {
         new Thread(() -> {
-            CrimeAlertApplication.main(new String[]{});
+            CrimeAlertApplication.main(new String[] {});
         }).start();
 
         try {
@@ -41,11 +41,11 @@ public class ApiClient {
                 .GET()
                 .build();
 
-        HttpResponse<String> response =
-                client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         return mapper.readValue(response.body(),
-                new TypeReference<ArrayList<CrimeModel>>() {});
+                new TypeReference<ArrayList<CrimeModel>>() {
+                });
     }
 
     public void postCrime(String description) throws Exception {
@@ -53,15 +53,13 @@ public class ApiClient {
 
         // Build JSON body
         String json = mapper.writeValueAsString(Map.of(
-                "description", description
-        ));
+                "description", description));
 
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(json))
                 .build();
 
-        HttpResponse<String> response =
-                client.send(request, HttpResponse.BodyHandlers.ofString());
+        client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 }
