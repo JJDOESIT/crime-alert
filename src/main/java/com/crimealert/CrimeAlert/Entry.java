@@ -30,13 +30,7 @@ public class Entry extends Application {
     public void start(Stage primaryStage) {
         try {
             client = new ApiClient();
-            new Thread(() -> {
-                try {
-                    client.launchAPI();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }).start();
+            client.launchAPI();
 
         
             TextArea output = new TextArea();
